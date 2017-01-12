@@ -161,34 +161,40 @@ public class Pokemon
         Random gen = new Random();
         Scanner scan = new Scanner(System.in);
         String enter;
-        int n = 1;
         int health1 = gen.nextInt(100)+300;
         int health2 = gen.nextInt(100)+300;
         double damage1 = 0;
         double damage2 = 0;
         String leave = "null";
         System.out.println("You're challenging " + leader + ", master of " + leaderType + " type Pokemon!");
-        boolean adv = false;
+        String ypoke = choosePokemoninBattle();
+        boolean adv1 = typeCheck(ypoke, leaderPokemon);
+        boolean adv2 = typeCheck(leaderPokemon, ypoke);
         do{
-            n = 1+n;
             damage1 = gen.nextInt(40)+60;
-            adv = typeCheck(choosePokemoninBattle(), leaderPokemon);
-            if(adv = true)
+            if(adv1)
             {
                 damage1 = Math.round(damage1 * 1.5);
             }
             damage2 = gen.nextInt(40)+60;
-            if(adv = true)
+            if(adv2)
             {
                 damage2 = Math.round(damage2 * 1.5);
             }
-            adv = typeCheck(leaderPokemon, choosePokemoninBattle());
             System.out.println("Your Pokemon has " + health1 + " HP.");
             System.out.println("Your opponents Pokemon has " + health2 + "HP.");
             System.out.println("Press Enter if you're ready to attack.");
             enter = scan.nextLine();
             System.out.println("Your Pokemon goes first! It did " + damage1 + " damage!");
-            System.out.println("The other Pokem did " + damage2 + " damage to you!");
+            if(adv1)
+            {
+                System.out.println("Your attack super effective!");
+            }
+            System.out.println("The other Pokemon did " + damage2 + " damage to you!");
+            if(adv2)
+            {
+                System.out.println("Their attack super effective!");
+            }
             System.out.println("Your Pokemon has " + (health1-damage2) + " HP left.");
             System.out.println("Your opponents Pokemon has " + (health2-damage1) + " HP left.");
             System.out.println("Press Enter to advance.");
@@ -224,7 +230,7 @@ public class Pokemon
        String yname = scan.nextLine();
        System.out.println("Enter your rival's name:");
        String rname = scan.nextLine();
-       System.out.println("Welcome, Pokemon Trainer, to the magical world of Pokemon! I'm Professor Mahagony.\nEach pokemon has one attack suited to it's type.\nAs such, we will be giving you three to start.\nIt'll be your job to utilize each of their strengths and manage their weaknesses to become victorious in the coming battles.\n(Press Enter to progress...)\n");
+       System.out.println("Welcome, " + yname + " Pokemon Trainer, to the magical world of Pokemon! I'm Professor Mahagony.\nEach pokemon has one attack suited to it's type.\nAs such, we will be giving you three to start.\nIt'll be your job to utilize each of their strengths and manage their weaknesses to become victorious in the coming battles.\n(Press Enter to progress...)\n");
        scan.nextLine();
        System.out.println("Recieved Bulbasaur!\nRecieved Charmander!\nRecieved Squirtle!");
        scan.nextLine();
@@ -232,12 +238,30 @@ public class Pokemon
        do
        {
            System.out.println("Who do you want to battle?\n1 - Whitney\n2 - Brock\n3 - Leutenant Surge\n4 - Champion\n5 - quit");
+           System.out.println("(Preferably go in order. :P)");
            in = scan.nextInt();
            scan.nextLine();
            switch(in)
            {
-               case 1:
-                    
+               
+                case 1:
+                    choosePokemoninBattle();
+                    battleSystem("Whitney", "Normal", "Kangaskhan");
+                    break;
+                case 2:
+                    choosePokemoninBattle();
+                    battleSystem("Brock", "Rock", "Golem");
+                    break;
+                case 3:
+                    choosePokemoninBattle();
+                    battleSystem("Leutenant Surge", "Electric", "Raichu");
+                    break;
+                case 4:
+                    choosePokemoninBattle();
+                    battleSystem(rname, "Magicarp", "Magicarp!");
+                    break;
+                case 5:
+                    return;   
            }
        }while(in < 4);
    }
